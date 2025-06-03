@@ -44,7 +44,7 @@ dev: build/wx/manifest.json
 release: $(release_file)
 	@$(gitclean) || { [ -n "$(dirty)" ] && echo "allowing dirty release"; }
 	gh release create v$(version)-rstms --notes "v$(version)-rstms"
-	( cd build && gh release upload v$(version)-rstms $(basename $<).xpi )
+	( cd build && gh release upload v$(version)-rstms $(notdir $<) )
 
 clean:
 	rm -rf build/wx && mkdir build/wx
