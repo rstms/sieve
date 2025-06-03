@@ -62,7 +62,7 @@
 
             async getUsername(id) {
               const server = getIncomingServer(id);
-              let username = await server.username;
+              const username = await server.username;
 	      if (username) {
                 return username;
 	      }
@@ -72,9 +72,9 @@
 
             async getHostname(id) {
               const server = getIncomingServer(id);
-	      let hostName = await server.hostName;
+	      const hostName = await server.hostName;
 	      if (hostName) {
-		return hostName;
+                return hostName;
 	      }
               // old API property
 	      return await server.realHostName;
