@@ -1,7 +1,7 @@
 
 # thunderbird extension makefile
 
-project = rstms-sieve
+project = sieve
 gitclean = if git status --porcelain | grep '^.*$$'; then echo git status is dirty; false; else echo git status is clean; true; fi
 
 src = $(shell find src -type f -name '*.js') $(shell find src -type f -name '*.mjs')
@@ -27,7 +27,7 @@ fmt:	.fmt
 	prettier --tab-width 2 --write "src/**/.js" "src/**/*.mjs" "src/**/*.html"
 	touch $@
 
-release_file = build/$(project)-$(version).xpi
+release_file = build/$(project)-$(version)-rstms.xpi
 
 $(release_file): $(src) $(html)
 	rm -f build/*.xpi
@@ -43,8 +43,8 @@ dev: build/wx/manifest.json
 
 release: $(release_file)
 	@$(gitclean) || { [ -n "$(dirty)" ] && echo "allowing dirty release"; }
-	gh release create v$(version) --notes "v$(version)"
-	( cd build && gh release upload v$(version) $(basename release_file) )
+	gh release create v$(version)-rstms --notes "v$(version)-rstms"
+	( cd build && gh release upload v$(version)-rstms $(basename $<)
 
 clean:
 	rm -rf build/wx && mkdir build/wx
