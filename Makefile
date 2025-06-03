@@ -3,12 +3,13 @@
 
 project = sieve
 gitclean = if git status --porcelain | grep '^.*$$'; then echo git status is dirty; false; else echo git status is clean; true; fi
+version != cat VERSION
+timestamp != date --rfc-3339=seconds
 
 src = $(shell find src -type f -name '*.js') $(shell find src -type f -name '*.mjs')
 html = $(shell find src -type f -name '*.html')
 schema = $(wildcard src/wx/api/*.json)
 
-version != cat VERSION
 
 all: $(html) $(src) fix .fmt lint assets
 	touch manifest.json
@@ -43,7 +44,7 @@ dev: build/wx/manifest.json
 
 release: $(release_file)
 	@$(gitclean) || { [ -n "$(dirty)" ] && echo "allowing dirty release"; }
-	gh release create v$(version)-rstms --notes "v$(version)-rstms"
+	gh release create v$(version)-rstms --notes "v$(version)-rstms" --title "v$(version)-rstms release $(timestamp)"
 	( cd build && gh release upload v$(version)-rstms $(notdir $<) )
 
 clean:
