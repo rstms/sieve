@@ -81,7 +81,13 @@ class TransposeMjsToJs extends Stream.Transform {
         /(<script\s*type="module"\s*src=['"])([\w./-]*)\.mjs(['"]\s*>)/gm,
         '$1$2.js$3');
 
+      /*
+      // add stylesheet to match thunderbird UI
+      content = content.replace(/^(\s*)(<.head>)/gm,
+	  '$1<link rel="stylesheet" href="chrome://messenger/skin/shared/common.css" />\n$1$2');
+
       file.contents = Buffer.from(content);
+      */
     }
 
     cb(null, file);
@@ -226,6 +232,7 @@ function watchSrc() {
       './src/**/*.json'],
     gulp.parallel(
       packageSrc,
+      packageExperiments,
       packageManageSieveUi,
       packageLibSieve,
       packageLibManageSieve)
