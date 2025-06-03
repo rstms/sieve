@@ -43,12 +43,8 @@ dev: build/wx/manifest.json
 
 release: $(release_file)
 	@$(gitclean) || { [ -n "$(dirty)" ] && echo "allowing dirty release"; }
-	mv build/
-	mv release.zip dist/$(release_file)
-	@$(if $(update),gh release delete -y v$(version),)
 	gh release create v$(version) --notes "v$(version)"
-	gh release upload v$(version) updates.json
-	( cd dist && gh release upload v$(version) $(release_file) )
+	( cd build && gh release upload v$(version) $(basename release_file) )
 
 clean:
 	rm -rf build/wx && mkdir build/wx
