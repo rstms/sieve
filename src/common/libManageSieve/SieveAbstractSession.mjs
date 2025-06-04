@@ -488,7 +488,8 @@ class SieveAbstractSession {
       });
 
 
-      await (this.getSieve().addRequest(request));
+      const sieve = this.getSieve();
+      await sieve.addRequest(request);
 
       if (init)
         await init();
